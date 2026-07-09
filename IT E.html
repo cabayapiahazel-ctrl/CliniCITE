@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CliniCITE - Clinic System</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #eef6f8;
+  color: #333;
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(90deg, #2a9d8f, #1d3557);
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* NAV */
+nav {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  background: white;
+  border-bottom: 2px solid #e0f2f1;
+}
+
+nav button {
+  background: none;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  padding-bottom: 5px;
+  border-bottom: 3px solid transparent;
+}
+
+nav button.active {
+  border-bottom: 3px solid #2a9d8f;
+  color: #2a9d8f;
+}
+
+/* MAIN */
+main {
+  padding: 2rem;
+  max-width: 900px;
+  margin: auto;
+}
+
+section { display: none; }
+section.active { display: block; }
+
+/* CARD */
+.card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  border-left: 6px solid #2a9d8f;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* FORM */
+form label {
+  margin-top: 1rem;
+  display: block;
+  font-weight: 600;
+}
+
+form input, form select {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.3rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f9fcfd;
+}
+
+form input:focus {
+  outline: none;
+  border-color: #2a9d8f;
+  box-shadow: 0 0 0 2px rgba(42,157,143,0.2);
+}
+
+form button {
+  margin-top: 1.5rem;
+  background: #2a9d8f;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #1d3557;
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+}
+
+th {
+  background: #1d3557;
+  color: white;
+}
+
+th, td {
+  padding: 0.7rem;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background: #f4f9fb;
+}
+
+tr:hover {
+  background: #e0f2f1;
+}
+
+/* BADGE */
+.badge {
+  background: #e0f7fa;
+  color: #00796b;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+/* SEARCH */
+#searchInput {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* MESSAGE */
+.message { margin-top: 1rem; font-weight: bold; }
+.success { color: green; }
+.error { color: red; }
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <h1>🩺 CliniCITE</h1>
+    <div class="subtitle">Student Health & Clinic System</div>
+  </div>
+</header>
+
+<nav>
+  <button class="nav-btn active" data-target="home">Home</button>
+  <button class="nav-btn" data-target="register">Register</button>
+  <button class="nav-btn" data-target="visit">Visit</button>
+  <button class="nav-btn" data-target="records">Records</button>
+</nav>
+
+<main>
+
+<section id="home" class="active">
+  <div class="card">
+    <h2>🏥 Welcome</h2>
+    <p>Manage student health records efficiently and professionally.</p>
+  </div>
+</section>
+
+<section id="register">
+  <div class="card">
+    <h2>🩺 Register Student</h2>
+    <form id="studentForm">
+      <label>Name</label>
+      <input id="studentName" required>
+
+      <label>ID</label>
+      <input id="studentID" required>
+
+      <label>Course</label>
+      <select id="course" required>
+        <option value="">Select</option>
+        <option>BSIT</option>
+        <option>BSCS</option>
+      </select>
+
+      <button>Register</button>
+      <div id="studentMessage" class="message"></div>
+    </form>
+  </div>
+</section>
+
+<section id="visit">
+  <div class="card">
+    <h2>💊 Clinic Visit</h2>
+    <form id="visitForm">
+      <label>ID</label>
+      <input id="visitStudentID" required>
+
+      <label>Date</label>
+      <input type="date" id="visitDate" required>
+
+      <label>Symptoms</label>
+      <input id="symptoms" required>
+
+      <button>Save Visit</button>
+      <div id="visitMessage" class="message"></div>
+    </form>
+  </div>
+</section>
+
+<section id="records">
+  <div class="card">
+    <h2>📋 Records</h2>
+    <input id="searchInput" placeholder="Search...">
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>ID</th>
+          <th>Course</th>
+          <th>Symptoms</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody id="recordsBody"></tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<script>
+const students = {};
+const records = [];
+
+/* NAV */
+document.querySelectorAll(".nav-btn").forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+
+    document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+    document.getElementById(btn.dataset.target).classList.add("active");
+  }
+});
+
+/* REGISTER */
+studentForm.onsubmit=e=>{
+  e.preventDefault();
+  const id=studentID.value;
+  students[id]={name:studentName.value,course:course.value};
+  studentMessage.textContent="Registered!";
+  studentMessage.className="message success";
+};
+
+/* VISIT */
+visitForm.onsubmit=e=>{
+  e.preventDefault();
+  const id=visitStudentID.value;
+
+  if(!students[id]){
+    visitMessage.textContent="Student not found!";
+    visitMessage.className="message error";
+    return;
+  }
+
+  const record={
+    ...students[id],
+    id,
+    symptoms:symptoms.value,
+    date:visitDate.value
+  };
+
+  records.push(record);
+
+  const row=document.createElement("tr");
+  row.innerHTML=`
+    <td>${record.name}</td>
+    <td>${record.id}</td>
+    <td>${record.course}</td>
+    <td><span class="badge">${record.symptoms}</span></td>
+    <td>${record.date}</td>
+  `;
+  recordsBody.appendChild(row);
+
+  visitMessage.textContent="Saved!";
+  visitMessage.className="message success";
+};
+
+/* SEARCH */
+searchInput.oninput=()=>{
+  const val=searchInput.value.toLowerCase();
+  document.querySelectorAll("#recordsBody tr").forEach(r=>{
+    r.style.display=r.textContent.toLowerCase().includes(val)?"":"none";
+  });
+};
+</script>
+
+</body>
+</html>
