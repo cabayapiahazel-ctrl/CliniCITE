@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CliniCITE Dashboard</title>
+<style>
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+  background-image: url('piagwapa.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  color: #333;
+}
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Header */
+  header {
+      background: linear-gradient(90deg, #9d2a93, #1d3557);
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
+  }
+  header h1 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  header .subtitle {
+    font-size: 0.9rem;
+    color: #d4c1f9cc;
+  }
+
+  /* Nav */
+  nav {
+    background: white;
+    display: flex;
+    gap: 1rem;
+    padding: 0.75rem 2rem;
+    border-bottom: 1px solid #ddd;
+  }
+  nav button {
+    background: #eee;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  nav button.active,
+  nav button:hover {
+    background: #6a0dad;
+    color: white;
+  }
+
+  .header-images{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.header-images img{
+  width:50px;
+  height:30;
+  object-fit:contain;
+}
+
+  /* Container */
+  main {
+    padding: 2rem;
+    max-width: 900px;
+    margin: auto;
+  }
+
+  section {
+    display: none;
+  }
+  section.active {
+    display: block;
+  }
+
+  .card {
+  background: rgba(255, 255, 255, 0.2); /* light glass effect */
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+  border-left: 6px solid #9d2a9d;
+}
+
+  /* Forms */
+  form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    margin-top: 1rem;
+  }
+  form input, form select {
+    width: 100%;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  form button {
+    margin-top: 1.5rem;
+    background: #6a0dad;
+    color: white;
+    font-weight: 700;
+    padding: 0.6rem 1.3rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  form button:hover {
+    background: #4b0082;
+  }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 0.7rem 1rem;
+    text-align: center;
+  }
+  th {
+    background: #be82ad;
+  color: white;
+  font-weight: 600;
+  }
+  tr:hover {
+  background: #e6f4f1;
+}
+
+td {
+  font-size: 0.95rem;
+}
+  tr:nth-child(even) {
+    background: #f9f6ff;
+  }
+
+  /* Search box */
+  #searchInput {
+    width: 100%;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  /* Messages */
+  .message {
+    margin-top: 1rem;
+    font-weight: 700;
+  }
+  .message.success {
+    color: green;
+  }
+  .message.error {
+    color: red;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    nav {
+      flex-wrap: wrap;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>CliniCITE</h1>
+    <div class="subtitle">School Clinic Record Management System</div>
+  </div>
+
+  <div class="header-images">
+    <img src="CITE LOGO.png" alt="Logo 1">
+    <img src="ndmc-logo-new.png" alt="Logo 2">
+  </div>
+</header>
+
+<nav>
+  <button class="nav-btn active" data-target="home">Home</button>
+  <button class="nav-btn" data-target="register">Register Student</button>
+  <button class="nav-btn" data-target="visit">Clinic Visit</button>
+  <button class="nav-btn" data-target="records">View Records</button>
+</nav>
+
+<main>
+
+  <!-- Home -->
+  <section id="home" class="active">
+    <div class="card">
+      <h2>Welcome to CliniCITE</h2>
+      <p>CliniCITE is a web-based system designed to manage student health records efficiently at your school clinic.</p>
+      <h3>Features:</h3>
+      <ul>
+        <li>Register students with course information</li>
+        <li>Record clinic visits with symptoms and treatment</li>
+        <li>View and search clinic records in real-time</li>
+        <li>Clean, intuitive interface optimized for desktop and mobile</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Register Student -->
+  <section id="register">
+    <div class="card">
+      <h2>🩺 Register Student</h2>
+      <form id="studentForm">
+        <label for="studentName">Student Name</label>
+        <input type="text" id="studentName" required placeholder="Enter full name" />
+        <label for="studentID">Student ID</label>
+        <input type="text" id="studentID" required placeholder="Enter student ID" />
+        <label for="course">Course</label>
+        <select id="course" required>
+          <option value="">Select course</option>
+          <option value="BSIT">BSIT</option>
+          <option value="BSIS">BSIS</option>
+          <option value="BSCS">BSCS</option>
+          <option value="BSECE">BSECE</option>
+          <option value="BSCPE">BSCPE</option>
+        </select>
+        <button type="submit">Register</button>
+        <div id="studentMessage" class="message"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Clinic Visit -->
+  <section id="visit">
+    <div class="card">
+      <h2>💊Clinic Visit Record</h2>
+      <form id="visitForm">
+        <label for="visitStudentID">Student ID</label>
+        <input type="text" id="visitStudentID" required placeholder="Enter registered student ID" />
+        <label for="visitDate">Date of Visit</label>
+        <input type="date" id="visitDate" required />
+        <label for="symptoms">Symptoms</label>
+        <input type="text" id="symptoms" required placeholder="E.g. Fever, headache" />
+        <label for="temperature">Temperature (°C)</label>
+        <input type="number" id="temperature" step="0.1" min="30" max="45" placeholder="Optional" />
+        <label for="heartRate">Heart Rate (BPM)</label>
+        <input type="number" id="heartRate" min="30" max="200" placeholder="Optional" />
+        <div id="visitMessage" class="message"></div>
+
+<button type="submit" class="save-btn">💾 Save Visit</button>
+
+<div id="visitMessage" class="message"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- View Records -->
+  <section id="records">
+    <div class="card">
+      <h2>📋 Clinic Records</h2>
+      <input type="text" id="searchInput" placeholder="Search by name or ID..." />
+      <table id="recordsTable" aria-label="Clinic Records Table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Course</th>
+            <th>Symptoms</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rows added dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Simple SPA navigation
+  const navButtons = document.querySelectorAll('nav button.nav-btn');
+  const sections = document.querySelectorAll('main section');
+
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active from all buttons
+      navButtons.forEach(b => b.classList.remove('active'));
+      // Add active to clicked button
+      btn.classList.add('active');
+
+      // Show matching section
+      const target = btn.getAttribute('data-target');
+      sections.forEach(section => {
+        section.classList.toggle('active', section.id === target);
+      });
+
+      // Clear messages on tab change
+      document.getElementById('studentMessage').textContent = '';
+      document.getElementById('visitMessage').textContent = '';
+    });
+  });
+
+  // Data storage
+  const students = {};
+  const clinicRecords = [];
+
+  // Register student
+  const studentForm = document.getElementById('studentForm');
+  const studentMessage = document.getElementById('studentMessage');
+  studentForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('studentName').value.trim();
+    const id = document.getElementById('studentID').value.trim();
+    const course = document.getElementById('course').value;
+
+    if (!name || !id || !course) {
+      studentMessage.textContent = 'Please fill in all required fields.';
+      studentMessage.className = 'message error';
+      return;
+    }
+
+    if (students[id]) {
+      studentMessage.textContent = 'Student ID already registered.';
+      studentMessage.className = 'message error';
+      return;
+    }
+
+    students[id] = { name, course };
+    studentMessage.textContent = 'Student registered successfully!';
+    studentMessage.className = 'message success';
+
+    studentForm.reset();
+  });
+
+  // Record clinic visit
+  const visitForm = document.getElementById('visitForm');
+  const visitMessage = document.getElementById('visitMessage');
+  const recordsTableBody = document.querySelector('#recordsTable tbody');
+  visitForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const id = document.getElementById('visitStudentID').value.trim();
+    const date = document.getElementById('visitDate').value;
+    const symptoms = document.getElementById('symptoms').value.trim();
+
+    if (!id || !date || !symptoms) {
+      visitMessage.textContent = 'Please fill in all required fields.';
+      visitMessage.className = 'message error';
+      return;
+    }
+
+    if (!students[id]) {
+      visitMessage.textContent = 'Student ID not found. Please register first.';
+      visitMessage.className = 'message error';
+      return;
+    }
+
+    // Optional fields
+    const temperature = document.getElementById('temperature').value;
+    const heartRate = document.getElementById('heartRate').value;
+    
+    const record = {
+      name: students[id].name,
+      id,
+      course: students[id].course,
+      symptoms,
+      date,
+      temperature,
+      heartRate,
+    };
+
+    clinicRecords.push(record);
+    addRecordToTable(record);
+
+    visitMessage.textContent = 'Clinic visit recorded successfully!';
+    visitMessage.className = 'message success';
+
+    visitForm.reset();
+
+    // Switch to records tab automatically
+    document.querySelector('nav button[data-target="records"]').click();
+  });
+
+  function addRecordToTable(record) {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${record.name}</td>
+      <td>${record.id}</td>
+      <td>${record.course}</td>
+      <td>${record.symptoms}</td>
+      <td>${record.date}</td>
+    `;
+    recordsTableBody.appendChild(row);
+  }
+
+  // Search in records
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', () => {
+    const filter = searchInput.value.toLowerCase();
+    const rows = recordsTableBody.querySelectorAll('tr');
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(filter) ? '' : 'none';
+    });
+  });
+</script>
+
+</body>
+</html>
